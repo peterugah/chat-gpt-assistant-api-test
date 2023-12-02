@@ -86,18 +86,22 @@ const getAndPrintAnswer = async (thread) => {
 	@param {OpenAI.Beta.Threads.Thread} thread
  */
 const waitForAnswerToBeReady = async (run, thread) => {
+	console.log("processing...");
+	const startTime = performance.now();
 	while (true) {
 		const state = await openAi.beta.threads.runs.retrieve(thread.id, run.id);
-		console.log(`run status is : ${run.status}`);
 		if (state.status === "completed") {
 			break;
 		}
 	}
+	const endTime = performance.now();
+	const executionTime = endTime - startTime;
+	console.log("execution time:", (executionTime / 1000).toFixed(2), "seconds");
 };
 
 const bootstrap = async () => {
 	const { thread, assistant, file } = await initialize();
-	console.log(`hi Peter, what is your question? \n`);
+	console.log(`hi Peter, what is your question?`);
 	while (true) {
 		const question = await getQuestion();
 		const { run } = await processQuestion(thread, assistant, question, file);
@@ -109,6 +113,7 @@ const bootstrap = async () => {
 bootstrap();
 
 /**
+TODO:
 - know when the assistant is done
 - execute custom functions
  */
