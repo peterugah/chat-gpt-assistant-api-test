@@ -97,6 +97,7 @@ const waitForAnswerToBeReady = async (run, thread) => {
 	const endTime = performance.now();
 	const executionTime = endTime - startTime;
 	console.log("execution time:", (executionTime / 1000).toFixed(2), "seconds");
+	console.log(`\n`);
 };
 
 const bootstrap = async () => {
